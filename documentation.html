@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SkillBase - Project Documentation</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 18mm 16mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      color: #1f2937;
+      line-height: 1.55;
+      font-size: 13.5px;
+      background: #ffffff;
+    }
+    .header-banner {
+      border-bottom: 2px solid #1a56db;
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
+    .title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1a56db;
+      margin-bottom: 4px;
+    }
+    .subtitle {
+      font-size: 13.5px;
+      color: #4b5563;
+      margin-bottom: 8px;
+    }
+    .meta-bar {
+      display: flex;
+      gap: 20px;
+      font-size: 11.5px;
+      color: #6b7280;
+    }
+    .section {
+      margin-bottom: 22px;
+      page-break-inside: avoid;
+    }
+    h2 {
+      font-size: 16px;
+      color: #111827;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    h3 {
+      font-size: 13.5px;
+      color: #1f2937;
+      margin-top: 10px;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+    p {
+      margin-bottom: 8px;
+    }
+    ul, ol {
+      margin-left: 20px;
+      margin-bottom: 8px;
+    }
+    li {
+      margin-bottom: 3px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0 14px 0;
+      font-size: 12px;
+    }
+    th, td {
+      border: 1px solid #d1d5db;
+      padding: 6px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background-color: #f3f4f6;
+      font-weight: 600;
+      color: #111827;
+    }
+    tr:nth-child(even) {
+      background-color: #f9fafb;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 10.5px;
+      font-weight: 600;
+      border-radius: 3px;
+      background-color: #ebf5ff;
+      color: #1a56db;
+      border: 1px solid #bfdbfe;
+    }
+    .badge-success {
+      background-color: #def7ec;
+      color: #03543f;
+      border-color: #a7f3d0;
+    }
+    .badge-warning {
+      background-color: #feecdc;
+      color: #9f2d07;
+      border-color: #fbd5c0;
+    }
+    pre, code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 11px;
+    }
+    pre {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      padding: 8px 12px;
+      margin: 8px 0;
+      overflow-x: auto;
+      line-height: 1.45;
+    }
+    .callout {
+      background-color: #f8fafc;
+      border-left: 3px solid #1a56db;
+      padding: 8px 12px;
+      margin: 8px 0;
+      font-size: 12px;
+      color: #374151;
+    }
+    .footer {
+      border-top: 1px solid #e5e7eb;
+      padding-top: 8px;
+      font-size: 10.5px;
+      color: #9ca3af;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 24px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Banner -->
+  <div class="header-banner">
+    <div class="title">SkillBase — Project Documentation & Technical Overview</div>
+    <div class="subtitle">A Pure Vanilla Web Platform for Peer-to-Peer Skill Matching & Direct Talent Discovery</div>
+    <div class="meta-bar">
+      <span><strong>Live URL:</strong> https://skillbase24.vercel.app</span>
+      <span><strong>Repository:</strong> github.com/satyamshukla-2412/SkillBase</span>
+      <span><strong>Architecture:</strong> HTML5 / CSS3 / Vanilla JS (ES6+)</span>
+    </div>
+  </div>
+
+  <!-- 1. Executive Summary -->
+  <div class="section">
+    <h2>1. Executive Summary & Core Concept</h2>
+    <p>
+      <strong>SkillBase</strong> is a web-based skill-exchange and talent matching platform designed to connect people who <strong>HAVE</strong> valuable skills with individuals and organizations who <strong>NEED</strong> talent for projects, tasks, and creative collaborations.
+    </p>
+    <p>
+      The platform eliminates intermediaries, recruitment agencies, and third-party fees by offering a direct, transparent match-making mechanism powered by deterministic keyword matching and geographic proximity scoring.
+    </p>
+  </div>
+
+  <!-- 2. Target Personas -->
+  <div class="section">
+    <h2>2. Target Personas & Platform Roles</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 20%;">Target Persona</th>
+          <th style="width: 30%;">Who They Are</th>
+          <th style="width: 25%;">Primary Objectives</th>
+          <th style="width: 25%;">Key Features Used</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Skill Provider</strong></td>
+          <td>Freelancers, developers, designers, content writers, skilled students, and domain specialists.</td>
+          <td>Showcase expertise, build a public portfolio, find matching project leads, and receive direct inquiries.</td>
+          <td>Profile manager, dynamic skill tag additions/removals, matches feed, received messages inbox.</td>
+        </tr>
+        <tr>
+          <td><strong>Skill Seeker</strong></td>
+          <td>Project owners, startup founders, community organizers, NGOs, and teams needing skilled help.</td>
+          <td>Post concrete project requirements, specify budgets, search qualified talent, and initiate contact.</td>
+          <td>Requirement posting, skill & city search filters, candidate match scoring, direct inquiry modal.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 3. Technology Stack -->
+  <div class="section">
+    <h2>3. Technology Stack & Tools Used</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 22%;">Layer</th>
+          <th style="width: 28%;">Technology</th>
+          <th style="width: 50%;">Implementation Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Markup (Structure)</strong></td>
+          <td>HTML5 (Semantic)</td>
+          <td>Multi-page architecture with 7 distinct semantic views: <code>index.html</code>, <code>login.html</code>, <code>register.html</code>, <code>provider.html</code>, <code>seeker.html</code>, <code>matches.html</code>, and <code>profile.html</code>.</td>
+        </tr>
+        <tr>
+          <td><strong>Styling (Aesthetics)</strong></td>
+          <td>Vanilla CSS3</td>
+          <td>Zero external UI frameworks (No Bootstrap, No Tailwind). Uses native CSS Variables, CSS Grid, Flexbox, responsive media queries, and dual external/embedded fail-safe stylesheets.</td>
+        </tr>
+        <tr>
+          <td><strong>Client Logic</strong></td>
+          <td>Vanilla JavaScript (ES6+)</td>
+          <td>Modular separation of concerns across <code>storage.js</code>, <code>auth.js</code>, <code>main.js</code>, <code>matches.js</code>, <code>provider.js</code>, and <code>seeker.js</code> without heavy JS libraries.</td>
+        </tr>
+        <tr>
+          <td><strong>Persistence</strong></td>
+          <td>Browser LocalStorage</td>
+          <td>Client-side persistence for user registrations, active authentication sessions, requirements, and sent/received contact messages. Pre-seeded with 8 sample profiles.</td>
+        </tr>
+        <tr>
+          <td><strong>Serverless Runtime</strong></td>
+          <td>Node.js (HTTP / Lambda)</td>
+          <td>Universal entrypoint (<code>app.js</code>) that serves all assets from an in-memory routing table with 100% reliability, MIME accuracy, and clean URL resolution.</td>
+        </tr>
+        <tr>
+          <td><strong>Hosting & CI/CD</strong></td>
+          <td>GitHub & Vercel</td>
+          <td>Automated deployments triggered directly from GitHub commits on the <code>main</code> branch to Vercel's global edge network.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 4. Design Philosophy -->
+  <div class="section">
+    <h2>4. Design Philosophy & Approach</h2>
+    <p>
+      The platform was intentionally crafted to feel like a <strong>clean, practical, hand-designed website</strong> rather than a generic AI-generated landing page template.
+    </p>
+    <ul>
+      <li><strong>Natural Aesthetics:</strong> Uses a crisp light background (<code>#f9fafb</code>), dark charcoal text (<code>#1f2a37</code>), and a professional collegiate blue primary color (<code>#1a56db</code>).</li>
+      <li><strong>Modest Visual Weight:</strong> Modest border-radii (4px to 6px), standard 1px solid borders, and clear typographic hierarchy without glowing neon gradients, glassmorphism, or 3D blobs.</li>
+      <li><strong>Zero Third-Party Assets:</strong> Avoids external font scripts or icon packs that could break offline or behind restrictive networks.</li>
+    </ul>
+  </div>
+
+  <!-- 5. Platform Architecture & File Structure -->
+  <div class="section">
+    <h2>5. Architecture & File Structure</h2>
+    <pre>
+skillbase/
+├── index.html          # Public homepage with Hero, 3 Benefits, How-It-Works, and About
+├── login.html          # Login portal with role switcher and 1-click test credentials
+├── register.html       # Dynamic registration with conditional Provider / Seeker inputs
+├── provider.html       # Skill Provider Dashboard: view/edit bio, manage skills, view inbox
+├── seeker.html         # Skill Seeker Dashboard: active requirement view, searches, sent log
+├── matches.html        # Skill Matching Engine: dual-mode provider and project search
+├── profile.html        # Detailed public profile view with direct contact trigger
+├── app.js              # Universal HTTP server and Vercel serverless request handler
+├── package.json        # Node metadata and entrypoint declaration
+├── style.css           # Root stylesheet fallback
+├── css/
+│   └── style.css       # Core design system and responsive styles
+└── js/
+    ├── storage.js      # LocalStorage initialization, CRUD, and deterministic algorithm
+    ├── auth.js         # User registration, login, logout, and auth route protection
+    ├── main.js         # Navbar updates, mobile menu toggle, and global contact modal
+    ├── provider.js     # Provider dashboard logic (add/remove skills, edit bio)
+    ├── seeker.js       # Seeker dashboard logic (edit requirement, search providers)
+    └── matches.js      # Search execution, scoring calculation, and results rendering
+    </pre>
+  </div>
+
+  <!-- 6. How the Platform Works -->
+  <div class="section">
+    <h2>6. How the Platform Works (User Flows)</h2>
+    <h3>1. Homepage Discovery</h3>
+    <p>Visitors are greeted by the clean hero section (<em>"Connect Skills. Find Opportunities."</em>) with two clear pathways: <strong>"I Have Skills"</strong> (leading to Provider registration) and <strong>"I Need Skills"</strong> (leading to Seeker registration). Below the hero, three value propositions are highlighted: <strong>Verified Skills</strong>, <strong>Smart Matching</strong>, and <strong>Direct Contact</strong>.</p>
+
+    <h3>2. Dynamic Registration & Authentication</h3>
+    <p>On <code>register.html</code>, selecting <strong>Skill Provider</strong> dynamically opens inputs for primary skills, experience duration, location, and bio. Selecting <strong>Skill Seeker</strong> dynamically switches to required skill, project deliverables, location, and budget. Submitting validates input, ensures no duplicate emails, saves the user to <code>LocalStorage</code>, logs in automatically, and redirects to their dashboard.</p>
+
+    <h3>3. Provider Dashboard Workflow</h3>
+    <p>Providers can inspect their public card, add new skills on the fly (which immediately generates a removable badge), edit their bio and experience level via a clean modal, and view project inquiries sent to them by seekers.</p>
+
+    <h3>4. Seeker Dashboard Workflow</h3>
+    <p>Seekers view their active requirement (deliverable description, budget, and target city), edit requirement parameters at any time, perform direct candidate searches, and review the history of inquiries they have initiated.</p>
+  </div>
+
+  <!-- 7. Matching Algorithm -->
+  <div class="section">
+    <h2>7. Deterministic Skill-Matching Algorithm</h2>
+    <p>
+      SkillBase uses a transparent, deterministic matching algorithm coded in vanilla JavaScript (<code>js/storage.js</code> and <code>js/matches.js</code>):
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 25%;">Matching Stage</th>
+          <th style="width: 25%;">Condition</th>
+          <th style="width: 20%;">Score Awarded</th>
+          <th style="width: 30%;">Resulting Badge & Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Skill Keyword Match</strong></td>
+          <td>Seeker requirement matches any Provider skill keyword (e.g., <em>"Web Development"</em>).</td>
+          <td>+10 points</td>
+          <td><span class="badge">Skill Match</span></td>
+        </tr>
+        <tr>
+          <td><strong>Location Bonus</strong></td>
+          <td>Candidate location matches Seeker location (e.g., both in <em>"Mumbai"</em>).</td>
+          <td>+5 points</td>
+          <td><span class="badge badge-warning">Location Match</span></td>
+        </tr>
+        <tr>
+          <td><strong>Combined Top Match</strong></td>
+          <td>Both skill keyword and location criteria match simultaneously.</td>
+          <td>+15 points</td>
+          <td><span class="badge badge-success">Top Match (Skill + Location)</span> (Ranked 1st)</td>
+        </tr>
+        <tr>
+          <td><strong>General Browse</strong></td>
+          <td>No specific search query entered (browsing directory).</td>
+          <td>+5 points (base)</td>
+          <td>Displays all available candidates sorted alphabetically.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout">
+      <strong>Dual-Mode Discovery:</strong> On <code>matches.html</code>, users can toggle between <em>"Find Skill Providers"</em> (talent directory) and <em>"Find Project Requirements"</em> (open project opportunities).
+    </div>
+  </div>
+
+  <!-- 8. Data Storage Architecture -->
+  <div class="section">
+    <h2>8. Data Storage Architecture (LocalStorage Schema)</h2>
+    <p>The platform runs completely client-side using three normalized LocalStorage tables:</p>
+    <pre>
+1. 'skillbase_users'     -> Array of user objects (Providers & Seekers)
+   Structure: { id, name, email, password, role, skills, experience, location, description, requiredSkill, budget }
+
+2. 'skillbase_current_user' -> Object representing the currently logged-in session user
+
+3. 'skillbase_messages'  -> Array of inquiry messages
+   Structure: { id, senderName, senderEmail, recipientId, recipientName, recipientRole, message, date }
+    </pre>
+  </div>
+
+  <!-- 9. Demo Accounts -->
+  <div class="section">
+    <h2>9. Pre-Configured Demo Test Accounts</h2>
+    <p>To enable immediate testing, the platform is pre-loaded with realistic accounts (password for all: <code>password123</code>):</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Role</th>
+          <th>Email</th>
+          <th>Skill / Requirement</th>
+          <th>Location</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Rahul Sharma</strong></td>
+          <td>Provider</td>
+          <td>rahul@example.com</td>
+          <td>HTML, CSS, JavaScript, React, Web Development</td>
+          <td>Mumbai</td>
+        </tr>
+        <tr>
+          <td><strong>Priya Patel</strong></td>
+          <td>Provider</td>
+          <td>priya@example.com</td>
+          <td>Figma, UI Design, Wireframing, Web Design</td>
+          <td>Pune</td>
+        </tr>
+        <tr>
+          <td><strong>Aman Verma</strong></td>
+          <td>Provider</td>
+          <td>aman@example.com</td>
+          <td>Python, SQL, Data Analysis, Machine Learning</td>
+          <td>Delhi</td>
+        </tr>
+        <tr>
+          <td><strong>Sneha Roy</strong></td>
+          <td>Provider</td>
+          <td>sneha@example.com</td>
+          <td>Content Writing, SEO, Technical Writing</td>
+          <td>Bangalore</td>
+        </tr>
+        <tr>
+          <td><strong>TechFest Committee</strong></td>
+          <td>Seeker</td>
+          <td>techfest@example.com</td>
+          <td>Required: Web Development (Budget: ₹8,000)</td>
+          <td>Mumbai</td>
+        </tr>
+        <tr>
+          <td><strong>GreenCampus NGO</strong></td>
+          <td>Seeker</td>
+          <td>greencampus@example.com</td>
+          <td>Required: UI Design (Budget: ₹4,000)</td>
+          <td>Pune</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 10. Links -->
+  <div class="section">
+    <h2>10. Deployment & Live Endpoints</h2>
+    <ul>
+      <li><strong>Production Web Application:</strong> <a href="https://skillbase24.vercel.app">https://skillbase24.vercel.app</a></li>
+      <li><strong>GitHub Source Repository:</strong> <a href="https://github.com/satyamshukla-2412/SkillBase">https://github.com/satyamshukla-2412/SkillBase</a></li>
+      <li><strong>Direct Login Portal:</strong> <a href="https://skillbase24.vercel.app/login">https://skillbase24.vercel.app/login</a></li>
+      <li><strong>Direct Matching Portal:</strong> <a href="https://skillbase24.vercel.app/matches">https://skillbase24.vercel.app/matches</a></li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    <span>SkillBase — Connect Skills. Find Opportunities.</span>
+    <span>Generated: September 2026</span>
+    <span>Page 1 of 1</span>
+  </div>
+
+</body>
+</html>

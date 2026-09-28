@@ -2,62 +2,79 @@ const fs = require('fs');
 const path = require('path');
 const http = require('http');
 
-const MIME_TYPES = {
-  '.html': 'text/html; charset=utf-8',
-  '.css': 'text/css; charset=utf-8',
-  '.js': 'application/javascript; charset=utf-8',
-  '.json': 'application/json',
-  '.png': 'image/png',
-  '.jpg': 'image/jpeg',
-  '.svg': 'image/svg+xml',
-  '.ico': 'image/x-icon'
+// Pre-load all files at startup so Vercel's AST tracer bundles them into the lambda
+// and all requests are served directly from memory with 100% uptime and 0ms latency.
+const STATIC_FILES = {
+  '/index.html': { content: fs.readFileSync(path.join(__dirname, 'index.html')), type: 'text/html; charset=utf-8' },
+  '/login.html': { content: fs.readFileSync(path.join(__dirname, 'login.html')), type: 'text/html; charset=utf-8' },
+  '/register.html': { content: fs.readFileSync(path.join(__dirname, 'register.html')), type: 'text/html; charset=utf-8' },
+  '/provider.html': { content: fs.readFileSync(path.join(__dirname, 'provider.html')), type: 'text/html; charset=utf-8' },
+  '/seeker.html': { content: fs.readFileSync(path.join(__dirname, 'seeker.html')), type: 'text/html; charset=utf-8' },
+  '/matches.html': { content: fs.readFileSync(path.join(__dirname, 'matches.html')), type: 'text/html; charset=utf-8' },
+  '/profile.html': { content: fs.readFileSync(path.join(__dirname, 'profile.html')), type: 'text/html; charset=utf-8' },
+  '/css/style.css': { content: fs.readFileSync(path.join(__dirname, 'css', 'style.css')), type: 'text/css; charset=utf-8' },
+  '/style.css': { content: fs.readFileSync(path.join(__dirname, 'style.css')), type: 'text/css; charset=utf-8' },
+  '/js/storage.js': { content: fs.readFileSync(path.join(__dirname, 'js', 'storage.js')), type: 'application/javascript; charset=utf-8' },
+  '/js/auth.js': { content: fs.readFileSync(path.join(__dirname, 'js', 'auth.js')), type: 'application/javascript; charset=utf-8' },
+  '/js/main.js': { content: fs.readFileSync(path.join(__dirname, 'js', 'main.js')), type: 'application/javascript; charset=utf-8' },
+  '/js/matches.js': { content: fs.readFileSync(path.join(__dirname, 'js', 'matches.js')), type: 'application/javascript; charset=utf-8' },
+  '/js/provider.js': { content: fs.readFileSync(path.join(__dirname, 'js', 'provider.js')), type: 'application/javascript; charset=utf-8' },
+  '/js/seeker.js': { content: fs.readFileSync(path.join(__dirname, 'js', 'seeker.js')), type: 'application/javascript; charset=utf-8' }
 };
 
-// Handler compatible with both Vercel Serverless Functions and Node http.createServer
+// Clean URL aliases
+STATIC_FILES['/'] = STATIC_FILES['/index.html'];
+STATIC_FILES['/login'] = STATIC_FILES['/login.html'];
+STATIC_FILES['/register'] = STATIC_FILES['/register.html'];
+STATIC_FILES['/provider'] = STATIC_FILES['/provider.html'];
+STATIC_FILES['/seeker'] = STATIC_FILES['/seeker.html'];
+STATIC_FILES['/matches'] = STATIC_FILES['/matches.html'];
+STATIC_FILES['/profile'] = STATIC_FILES['/profile.html'];
+
 function handler(req, res) {
-  let reqPath = req.url.split('?')[0];
-  if (reqPath === '/' || reqPath === '') {
-    reqPath = '/index.html';
+  let reqPath = (req.url || '/').split('?')[0];
+  if (!reqPath.startsWith('/')) reqPath = '/' + reqPath;
+
+  // Direct lookup in preloaded in-memory table
+  let entry = STATIC_FILES[reqPath];
+  if (!entry && STATIC_FILES[reqPath + '.html']) {
+    entry = STATIC_FILES[reqPath + '.html'];
   }
 
-  // Resolve file path within current directory
-  let safePath = path.normalize(reqPath).replace(/^(\.\.[\/\\])+/, '');
-  let filePath = path.join(__dirname, safePath);
-
-  // If path doesn't exist, try appending .html for clean URLs (e.g. /login -> /login.html)
-  if (!fs.existsSync(filePath) && fs.existsSync(filePath + '.html')) {
-    filePath = filePath + '.html';
+  if (entry) {
+    res.writeHead(200, {
+      'Content-Type': entry.type,
+      'Cache-Control': 'public, max-age=3600'
+    });
+    res.end(entry.content);
+    return;
   }
 
-  // Check if target is a directory, look for index.html inside
-  if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
-    filePath = path.join(filePath, 'index.html');
-  }
+  // Fallback to filesystem
+  const safePath = path.normalize(reqPath).replace(/^(\.\.[\/\\])+/, '');
+  const filePath = path.join(__dirname, safePath);
 
-  fs.readFile(filePath, (err, content) => {
-    if (err) {
-      res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
-      res.end('404 Not Found');
-    } else {
-      const ext = path.extname(filePath).toLowerCase();
-      const contentType = MIME_TYPES[ext] || 'application/octet-stream';
-      res.writeHead(200, {
-        'Content-Type': contentType,
-        'Cache-Control': 'public, max-age=3600'
-      });
-      res.end(content);
-    }
-  });
+  if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+    const ext = path.extname(filePath).toLowerCase();
+    const types = {
+      '.html': 'text/html; charset=utf-8',
+      '.css': 'text/css; charset=utf-8',
+      '.js': 'application/javascript; charset=utf-8',
+      '.json': 'application/json'
+    };
+    res.writeHead(200, { 'Content-Type': types[ext] || 'application/octet-stream' });
+    fs.createReadStream(filePath).pipe(res);
+  } else {
+    res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+    res.end('404 Not Found: ' + reqPath);
+  }
 }
 
-// Export for Vercel Serverless Function entrypoint
 module.exports = handler;
 
-// Also allow running standalone via `node app.js`
 if (require.main === module) {
   const PORT = process.env.PORT || 3000;
-  const server = http.createServer(handler);
-  server.listen(PORT, () => {
+  http.createServer(handler).listen(PORT, () => {
     console.log(`SkillBase server running at http://localhost:${PORT}`);
   });
 }

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skill Seeker Dashboard - SkillBase</title>
+  <meta name="description" content="Skill Seeker Dashboard on SkillBase. Manage your requirements and search talent.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="header">
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo-area">
+          <span class="logo-text">SkillBase</span>
+        </a>
+
+        <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Toggle navigation menu">&#9776;</button>
+
+        <ul class="nav-links" id="navLinksList">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="seeker.html" class="active">My Dashboard</a></li>
+          <li><a href="matches.html">Search Providers</a></li>
+          <li><a href="profile.html">My Requirement View</a></li>
+        </ul>
+
+        <div class="nav-auth-buttons" id="navAuthContainer">
+          <!-- Populated dynamically by main.js -->
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+
+      <!-- Welcome Banner -->
+      <div class="dashboard-header">
+        <div>
+          <span class="badge badge-warning" style="margin-bottom: 6px;">Skill Seeker</span>
+          <h2>Welcome, <span id="seekerWelcomeName">Organizer</span></h2>
+          <p style="color: var(--secondary-color); margin-bottom: 0;">
+            Define your project requirement, search verified talent, and initiate direct contact.
+          </p>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <a href="matches.html" class="btn btn-primary" id="viewMyMatchesBtn">View Matches for My Requirement</a>
+          <button class="btn btn-secondary" id="editRequirementBtn">Edit Requirement</button>
+        </div>
+      </div>
+
+      <!-- Dashboard Layout -->
+      <div class="dashboard-layout">
+
+        <!-- Left Column: Active Requirement Details -->
+        <div>
+          <!-- Requirement Card -->
+          <div class="card" style="margin-bottom: 24px;">
+            <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <h3 class="card-title" style="margin: 0;">Active Requirement</h3>
+              <span class="badge badge-primary">Seeking Talent</span>
+            </div>
+
+            <div class="info-row">
+              <div class="info-label">Organization / Individual:</div>
+              <div class="info-value" id="reqOrgName">-</div>
+            </div>
+
+            <div class="info-row">
+              <div class="info-label">Required Skill:</div>
+              <div class="info-value">
+                <span class="badge badge-primary" id="reqSkill" style="font-size: 0.9rem; padding: 4px 10px;">-</span>
+              </div>
+            </div>
+
+            <div class="info-row">
+              <div class="info-label">Target Location:</div>
+              <div class="info-value" id="reqLocation">-</div>
+            </div>
+
+            <div class="info-row">
+              <div class="info-label">Budget / Rate:</div>
+              <div class="info-value" id="reqBudget">-</div>
+            </div>
+
+            <div class="info-row" style="border-bottom: none;">
+              <div class="info-label">Description:</div>
+              <div class="info-value" id="reqDescription">-</div>
+            </div>
+          </div>
+
+          <!-- Quick Search Providers Card -->
+          <div class="card" style="margin-bottom: 24px;">
+            <div class="card-header">
+              <h3 class="card-title" style="margin: 0;">Search Providers Directly</h3>
+            </div>
+            <p style="font-size: 0.9rem; color: var(--secondary-color);">
+              Quickly query candidates in the database matching specific skills or locations.
+            </p>
+
+            <form id="seekerSearchForm">
+              <div class="grid-2" style="margin-bottom: 12px; gap: 12px;">
+                <div>
+                  <label class="form-label" for="searchSkillInput">Skill Keyword</label>
+                  <input type="text" id="searchSkillInput" class="form-control" placeholder="e.g. Web Development, Python, UI">
+                </div>
+                <div>
+                  <label class="form-label" for="searchLocationInput">City / Location</label>
+                  <input type="text" id="searchLocationInput" class="form-control" placeholder="e.g. Mumbai, Pune">
+                </div>
+              </div>
+              <button type="submit" class="btn btn-secondary">Search Talent Database</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Right Column: Inquiries Sent & Short Links -->
+        <div>
+          <!-- Action Links Card -->
+          <div class="card" style="margin-bottom: 24px;">
+            <div class="card-header">
+              <h3 class="card-title" style="margin: 0;">Quick Links</h3>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <a href="matches.html" class="btn btn-primary btn-block">Browse All Providers</a>
+              <a href="profile.html" class="btn btn-secondary btn-block">Preview Requirement Card</a>
+            </div>
+          </div>
+
+          <!-- Sent Inquiries Log -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title" style="margin: 0;">Sent Inquiries</h3>
+            </div>
+            <div id="seekerInquiriesList">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Edit Requirement Modal -->
+  <div class="modal-overlay" id="editRequirementModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="margin: 0; font-size: 1.15rem;">Edit Requirement Details</h3>
+        <button class="modal-close-btn" id="closeEditReqModalBtn">&times;</button>
+      </div>
+      <form id="editRequirementForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="editReqOrgName">Organization / Individual Name <span class="required">*</span></label>
+            <input type="text" id="editReqOrgName" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="editReqSkill">Required Skill <span class="required">*</span></label>
+            <input type="text" id="editReqSkill" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="editReqLocation">Location / Preferred City <span class="required">*</span></label>
+            <input type="text" id="editReqLocation" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="editReqBudget">Budget / Expected Compensation</label>
+            <input type="text" id="editReqBudget" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="editReqDescription">Requirement Description <span class="required">*</span></label>
+            <textarea id="editReqDescription" class="form-control" rows="3" required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelEditReqModalBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Update Requirement</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div>
+        <strong>SkillBase</strong> &mdash; Connect Skills. Find Opportunities.
+      </div>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="matches.html">Matches</a></li>
+        <li><a href="seeker.html">Dashboard</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/seeker.js"></script>
+</body>
+</html>

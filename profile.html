@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile - SkillBase</title>
+  <meta name="description" content="Detailed profile view on SkillBase.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="header">
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo-area">
+          <span class="logo-text">SkillBase</span>
+        </a>
+
+        <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Toggle navigation menu">&#9776;</button>
+
+        <ul class="nav-links" id="navLinksList">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="matches.html">Find Matches</a></li>
+        </ul>
+
+        <div class="nav-auth-buttons" id="navAuthContainer">
+          <!-- Populated dynamically by main.js -->
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container" style="max-width: 800px;">
+
+      <div style="margin-bottom: 20px;">
+        <a href="matches.html" class="btn btn-secondary btn-sm">&larr; Back to Matches</a>
+      </div>
+
+      <div class="card" id="profileMainCard">
+        <!-- Profile Header -->
+        <div class="card-header" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
+          <div>
+            <span class="badge badge-primary" id="profileRoleBadge">Profile</span>
+            <h2 id="viewProfileName" style="margin-top: 6px; margin-bottom: 4px;">Loading Profile...</h2>
+            <div id="viewProfileLocation" style="color: var(--text-muted); font-size: 0.95rem;">Location: -</div>
+          </div>
+          <div id="profileActionContainer">
+            <!-- Dynamic button e.g. Contact Provider -->
+          </div>
+        </div>
+
+        <!-- Provider Specific Block -->
+        <div id="providerProfileDetails">
+          <div class="info-row">
+            <div class="info-label">Experience Level:</div>
+            <div class="info-value" id="viewProfileExperience">-</div>
+          </div>
+
+          <div class="info-row" style="flex-direction: column; align-items: flex-start;">
+            <div class="info-label" style="width: auto; margin-bottom: 6px;">Skills & Capabilities:</div>
+            <div class="skill-tags" id="viewProfileSkills" style="margin: 0;">
+              <!-- Tags rendered here -->
+            </div>
+          </div>
+
+          <div class="info-row" style="border-bottom: none; flex-direction: column; align-items: flex-start;">
+            <div class="info-label" style="width: auto; margin-bottom: 6px;">About & Background:</div>
+            <div class="info-value" id="viewProfileDescription" style="line-height: 1.6;">-</div>
+          </div>
+        </div>
+
+        <!-- Seeker Specific Block -->
+        <div id="seekerProfileDetails" style="display: none;">
+          <div class="info-row">
+            <div class="info-label">Required Skill:</div>
+            <div class="info-value">
+              <span class="badge badge-primary" id="viewSeekerReqSkill" style="font-size: 0.9rem; padding: 4px 10px;">-</span>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-label">Offered Budget:</div>
+            <div class="info-value" id="viewSeekerBudget">-</div>
+          </div>
+
+          <div class="info-row" style="border-bottom: none; flex-direction: column; align-items: flex-start;">
+            <div class="info-label" style="width: auto; margin-bottom: 6px;">Requirement Description:</div>
+            <div class="info-value" id="viewSeekerDescription" style="line-height: 1.6;">-</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Global Contact Modal -->
+  <div class="modal-overlay" id="contactModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="margin: 0; font-size: 1.15rem;">Contact <span id="contactRecipientName">User</span></h3>
+        <button class="modal-close-btn" id="closeModalBtn" aria-label="Close modal">&times;</button>
+      </div>
+      <form id="contactForm">
+        <div class="modal-body">
+          <div id="contactModalAlert" class="alert" style="display: none;"></div>
+
+          <div class="form-group">
+            <label class="form-label" for="contactSenderName">Your Name <span class="required">*</span></label>
+            <input type="text" id="contactSenderName" class="form-control" placeholder="Enter your full name" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contactSenderEmail">Your Email <span class="required">*</span></label>
+            <input type="email" id="contactSenderEmail" class="form-control" placeholder="Enter your email address" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contactMessage">Message <span class="required">*</span></label>
+            <textarea id="contactMessage" class="form-control" rows="4" placeholder="Hello, I saw your profile on SkillBase and would like to connect..." required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelModalBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div>
+        <strong>SkillBase</strong> &mdash; Connect Skills. Find Opportunities.
+      </div>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="matches.html">Matches</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="register.html">Register</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const urlParams = new URLSearchParams(window.location.search);
+      const userId = urlParams.get('id');
+
+      let targetUser = null;
+
+      if (userId) {
+        targetUser = getUserById(userId);
+      } else {
+        targetUser = getCurrentUser();
+      }
+
+      if (!targetUser) {
+        document.getElementById('profileMainCard').innerHTML = `
+          <div style="text-align: center; padding: 40px 20px;">
+            <h3>User Profile Not Found</h3>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">The requested profile could not be located in LocalStorage.</p>
+            <a href="matches.html" class="btn btn-primary">Back to Matches</a>
+          </div>
+        `;
+        return;
+      }
+
+      // Render profile
+      document.getElementById('viewProfileName').textContent = targetUser.name;
+      document.getElementById('viewProfileLocation').textContent = `Location: ${targetUser.location || 'Not Specified'}`;
+
+      const roleBadge = document.getElementById('profileRoleBadge');
+      const actionContainer = document.getElementById('profileActionContainer');
+      const providerBlock = document.getElementById('providerProfileDetails');
+      const seekerBlock = document.getElementById('seekerProfileDetails');
+
+      if (targetUser.role === 'provider') {
+        roleBadge.className = 'badge badge-primary';
+        roleBadge.textContent = 'Skill Provider';
+        providerBlock.style.display = 'block';
+        seekerBlock.style.display = 'none';
+
+        document.getElementById('viewProfileExperience').textContent = targetUser.experience || 'Entry Level';
+        document.getElementById('viewProfileDescription').textContent = targetUser.description || 'No description provided.';
+
+        const skillsContainer = document.getElementById('viewProfileSkills');
+        skillsContainer.innerHTML = '';
+        const skills = Array.isArray(targetUser.skills) ? targetUser.skills : [];
+        skills.forEach(s => {
+          const tag = document.createElement('span');
+          tag.className = 'skill-tag';
+          tag.textContent = s;
+          skillsContainer.appendChild(tag);
+        });
+
+        // Contact Provider button
+        actionContainer.innerHTML = `<button class="btn btn-primary" id="contactThisUserBtn">Contact Provider</button>`;
+      } else {
+        // Seeker
+        roleBadge.className = 'badge badge-warning';
+        roleBadge.textContent = 'Skill Seeker / Project Owner';
+        providerBlock.style.display = 'none';
+        seekerBlock.style.display = 'block';
+
+        document.getElementById('viewSeekerReqSkill').textContent = targetUser.requiredSkill || 'Not Specified';
+        document.getElementById('viewSeekerBudget').textContent = targetUser.budget || 'Negotiable';
+        document.getElementById('viewSeekerDescription').textContent = targetUser.description || 'No description provided.';
+
+        // Contact Seeker button
+        actionContainer.innerHTML = `<button class="btn btn-primary" id="contactThisUserBtn">Contact Seeker</button>`;
+      }
+
+      // Hook up contact button
+      const contactBtn = document.getElementById('contactThisUserBtn');
+      if (contactBtn) {
+        contactBtn.addEventListener('click', function () {
+          openContactModalForUser(targetUser);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

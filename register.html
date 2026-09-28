@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Registration - SkillBase</title>
+  <meta name="description" content="Register as a Skill Provider or Skill Seeker on SkillBase.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="header">
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo-area">
+          <span class="logo-text">SkillBase</span>
+        </a>
+
+        <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Toggle navigation menu">&#9776;</button>
+
+        <ul class="nav-links" id="navLinksList">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="index.html#how-it-works">How It Works</a></li>
+          <li><a href="matches.html">Find Matches</a></li>
+        </ul>
+
+        <div class="nav-auth-buttons" id="navAuthContainer">
+          <a href="login.html" class="btn btn-secondary btn-sm">Login</a>
+          <a href="register.html" class="btn btn-primary btn-sm active">Register</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <div class="form-container">
+        <h2 style="text-align: center; margin-bottom: 6px;">Create a SkillBase Account</h2>
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 24px;">
+          Join our skill network as a Provider or a Seeker
+        </p>
+
+        <div id="registerAlert" class="alert" style="display: none;"></div>
+
+        <form id="registerForm">
+          <!-- Step 1: Basic Info -->
+          <div class="form-group">
+            <label class="form-label" for="regName">Full Name <span class="required">*</span></label>
+            <input type="text" id="regName" class="form-control" placeholder="e.g. Rahul Sharma or Tech Club" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="regEmail">Email Address <span class="required">*</span></label>
+            <input type="email" id="regEmail" class="form-control" placeholder="name@example.com" required>
+            <div class="form-help">This will be used for logging into your account.</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="regPassword">Password <span class="required">*</span></label>
+            <input type="password" id="regPassword" class="form-control" placeholder="Create a secure password" required minlength="4">
+          </div>
+
+          <!-- Step 2: User Role Selection -->
+          <div class="form-group">
+            <label class="form-label">I want to register as: <span class="required">*</span></label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="userRole" value="provider" checked>
+                <strong>Skill Provider</strong> (I have skills to offer)
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="userRole" value="seeker">
+                <strong>Skill Seeker</strong> (I need skills for a project)
+              </label>
+            </div>
+          </div>
+
+          <hr style="border: none; border-top: 1px solid var(--border-light); margin: 20px 0;">
+
+          <!-- Dynamic Section A: Skill Provider Specific Fields -->
+          <div id="providerFields">
+            <h4 style="margin-bottom: 12px; color: var(--primary-color);">Provider Profile Details</h4>
+
+            <div class="form-group">
+              <label class="form-label" for="regSkills">Skills (comma-separated) <span class="required">*</span></label>
+              <input type="text" id="regSkills" class="form-control" placeholder="e.g. HTML, CSS, JavaScript, React, Web Development">
+              <div class="form-help">List your primary capabilities separated by commas.</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="regExperience">Experience Level</label>
+              <select id="regExperience" class="form-control">
+                <option value="Beginner">Beginner</option>
+                <option value="1 year">1 year</option>
+                <option value="2 years" selected>2 years</option>
+                <option value="3+ years">3+ years</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="regLocation">Location / City <span class="required">*</span></label>
+              <input type="text" id="regLocation" class="form-control" placeholder="e.g. Mumbai, Pune, Delhi, Bangalore">
+              <div class="form-help">Used by the matching engine to pair you with local opportunities.</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="regDescription">Short Description / Bio</label>
+              <textarea id="regDescription" class="form-control" placeholder="Describe your background, projects you have built, or areas of interest..."></textarea>
+            </div>
+          </div>
+
+          <!-- Dynamic Section B: Skill Seeker Specific Fields -->
+          <div id="seekerFields" style="display: none;">
+            <h4 style="margin-bottom: 12px; color: var(--primary-color);">Project Requirement Details</h4>
+
+            <div class="form-group">
+              <label class="form-label" for="regReqSkill">Required Skill <span class="required">*</span></label>
+              <input type="text" id="regReqSkill" class="form-control" placeholder="e.g. Web Development, Graphic Design, Python">
+              <div class="form-help">Specify the main skill or discipline needed for your task.</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="regReqDescription">Requirement Description <span class="required">*</span></label>
+              <textarea id="regReqDescription" class="form-control" placeholder="Briefly describe what needs to be done, project deliverables, and expected timeline..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="regSeekerLocation">Location / Preferred City</label>
+              <input type="text" id="regSeekerLocation" class="form-control" placeholder="e.g. Mumbai, Pune, Remote">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="regBudget">Budget / Expected Compensation</label>
+              <input type="text" id="regBudget" class="form-control" placeholder="e.g. ₹5,000 / Project or ₹500 / Hour">
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 24px;">
+            Complete Registration
+          </button>
+        </form>
+
+        <div style="text-align: center; margin-top: 20px; font-size: 0.9rem;">
+          Already have an account? <a href="login.html">Login here</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div>
+        <strong>SkillBase</strong> &mdash; Connect Skills. Find Opportunities.
+      </div>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="matches.html">Matches</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="register.html">Register</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      initRegisterPage();
+    });
+  </script>
+</body>
+</html>

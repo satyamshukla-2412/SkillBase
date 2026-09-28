@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skill Matching - SkillBase</title>
+  <meta name="description" content="Skill matching portal connecting skill seekers with verified skill providers.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="header">
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo-area">
+          <span class="logo-text">SkillBase</span>
+        </a>
+
+        <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Toggle navigation menu">&#9776;</button>
+
+        <ul class="nav-links" id="navLinksList">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="index.html#how-it-works">How It Works</a></li>
+          <li><a href="matches.html" class="active">Find Matches</a></li>
+        </ul>
+
+        <div class="nav-auth-buttons" id="navAuthContainer">
+          <!-- Populated dynamically by main.js -->
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+
+      <!-- Page Heading & Matching Logic -->
+      <div style="margin-bottom: 24px;">
+        <span class="badge badge-primary" style="margin-bottom: 6px;">Matching Engine</span>
+        <h1>Skill Matching Portal</h1>
+        <p style="color: var(--secondary-color); margin-bottom: 6px;">
+          Find and match skilled individuals based on project requirements and geographic location.
+        </p>
+        <div style="background-color: #f1f5f9; border-left: 3px solid var(--primary-color); padding: 8px 14px; font-size: 0.85rem; color: var(--secondary-color); margin-bottom: 16px;">
+          <strong>Matching Algorithm Logic:</strong> If the required skill keyword matches listed capabilities, candidate is displayed. If both the skill and the location match, the candidate is prioritized with a top-match badge.
+        </div>
+
+        <!-- Mode Toggle Tabs -->
+        <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+          <button type="button" class="btn btn-primary btn-sm" id="tabProvidersBtn">Find Skill Providers</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="tabRequirementsBtn">Find Project Requirements</button>
+        </div>
+      </div>
+
+      <!-- Search & Filter Bar -->
+      <div class="filter-bar">
+        <div>
+          <label class="form-label" for="filterSkillInput" style="margin-bottom: 4px;">Required Skill / Keyword</label>
+          <input type="text" id="filterSkillInput" class="form-control" placeholder="e.g. Web Development, Python, UI Design, Content">
+        </div>
+
+        <div>
+          <label class="form-label" for="filterLocationInput" style="margin-bottom: 4px;">Location / City Filter</label>
+          <input type="text" id="filterLocationInput" class="form-control" placeholder="e.g. Mumbai, Pune, Delhi, Bangalore">
+        </div>
+
+        <div>
+          <form id="matchFilterForm" style="display: inline;">
+            <button type="submit" class="btn btn-primary">Find Matches</button>
+          </form>
+          <button type="button" class="btn btn-secondary" id="resetFilterBtn">Reset</button>
+        </div>
+
+        <div>
+          <button type="button" class="btn btn-outline" id="loadMyReqBtn" style="display: none;">
+            Use My Requirement
+          </button>
+        </div>
+      </div>
+
+      <!-- Results Header -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border-light); padding-bottom: 10px;">
+        <div>
+          <strong id="matchResultsCount" style="font-size: 1.1rem; color: var(--text-dark);">0 Matches Found</strong>
+          <div id="matchQuerySummary" style="font-size: 0.88rem; color: var(--text-muted); margin-top: 2px;"></div>
+        </div>
+      </div>
+
+      <!-- Match Results Container -->
+      <div id="matchResultsContainer">
+        <!-- Rendered dynamically by matches.js -->
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Global Contact Modal -->
+  <div class="modal-overlay" id="contactModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="margin: 0; font-size: 1.15rem;">Contact <span id="contactRecipientName">Provider</span></h3>
+        <button class="modal-close-btn" id="closeModalBtn" aria-label="Close modal">&times;</button>
+      </div>
+      <form id="contactForm">
+        <div class="modal-body">
+          <div id="contactModalAlert" class="alert" style="display: none;"></div>
+
+          <div class="form-group">
+            <label class="form-label" for="contactSenderName">Your Name <span class="required">*</span></label>
+            <input type="text" id="contactSenderName" class="form-control" placeholder="e.g. TechFest Committee" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contactSenderEmail">Your Email <span class="required">*</span></label>
+            <input type="email" id="contactSenderEmail" class="form-control" placeholder="e.g. techfest@example.com" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contactMessage">Message <span class="required">*</span></label>
+            <textarea id="contactMessage" class="form-control" rows="4" placeholder="Hello, we saw your skills on SkillBase and would like to invite you to collaborate on our project..." required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelModalBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div>
+        <strong>SkillBase</strong> &mdash; Connect Skills. Find Opportunities.
+      </div>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="matches.html">Matches</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="register.html">Register</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/matches.js"></script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skill Provider Dashboard - SkillBase</title>
+  <meta name="description" content="Skill Provider Dashboard on SkillBase. Manage your skills, profile, and view matching opportunities.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="header">
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo-area">
+          <span class="logo-text">SkillBase</span>
+        </a>
+
+        <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Toggle navigation menu">&#9776;</button>
+
+        <ul class="nav-links" id="navLinksList">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="provider.html" class="active">My Dashboard</a></li>
+          <li><a href="matches.html">View Matches</a></li>
+          <li><a href="profile.html">My Public Profile</a></li>
+        </ul>
+
+        <div class="nav-auth-buttons" id="navAuthContainer">
+          <!-- Populated dynamically by main.js -->
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+
+      <!-- Welcome Banner -->
+      <div class="dashboard-header">
+        <div>
+          <span class="badge badge-primary" style="margin-bottom: 6px;">Skill Provider</span>
+          <h2>Welcome, <span id="providerWelcomeName">Provider</span></h2>
+          <p style="color: var(--secondary-color); margin-bottom: 0;">
+            Manage your advertised capabilities, update your experience, and connect with seekers.
+          </p>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <a href="matches.html" class="btn btn-primary" id="viewMatchesFromProviderBtn">View Matches</a>
+          <button class="btn btn-secondary" id="editProfileBtn">Edit Profile</button>
+        </div>
+      </div>
+
+      <!-- Dashboard Layout -->
+      <div class="dashboard-layout">
+
+        <!-- Left Column: Profile & Skills Details -->
+        <div>
+          <!-- Profile Card -->
+          <div class="card" style="margin-bottom: 24px;">
+            <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <h3 class="card-title" style="margin: 0;">Profile Information</h3>
+              <span class="badge badge-success">Active Provider</span>
+            </div>
+
+            <div class="info-row">
+              <div class="info-label">Full Name:</div>
+              <div class="info-value" id="profileName">-</div>
+            </div>
+
+            <div class="info-row">
+              <div class="info-label">Email:</div>
+              <div class="info-value" id="profileEmail">-</div>
+            </div>
+
+            <div class="info-row">
+              <div class="info-label">Location:</div>
+              <div class="info-value" id="profileLocation">-</div>
+            </div>
+
+            <div class="info-row">
+              <div class="info-label">Experience:</div>
+              <div class="info-value" id="profileExperience">-</div>
+            </div>
+
+            <div class="info-row" style="border-bottom: none;">
+              <div class="info-label">About / Bio:</div>
+              <div class="info-value" id="profileDescription">-</div>
+            </div>
+          </div>
+
+          <!-- Skills Card -->
+          <div class="card" style="margin-bottom: 24px;">
+            <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <h3 class="card-title" style="margin: 0;">My Skills</h3>
+              <span id="providerSkillCountBadge" class="badge badge-primary">0 Skills Listed</span>
+            </div>
+
+            <p style="font-size: 0.9rem; color: var(--secondary-color);">
+              These skills are matched against requirements posted by skill seekers. Click the &times; on any badge to remove it.
+            </p>
+
+            <div class="skill-tags" id="providerSkillsContainer" style="margin-bottom: 20px;">
+              <!-- Populated dynamically -->
+            </div>
+
+            <!-- Add Skill Form -->
+            <form id="addSkillForm" style="display: flex; gap: 8px; margin-top: 10px;">
+              <input type="text" id="newSkillInput" class="form-control" placeholder="Add a new skill (e.g. Python, SQL, UI Design)" style="flex: 1;" required>
+              <button type="submit" class="btn btn-secondary">Add Skill</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Right Column: Inquiries & Actions -->
+        <div>
+          <!-- Quick Actions Card -->
+          <div class="card" style="margin-bottom: 24px;">
+            <div class="card-header">
+              <h3 class="card-title" style="margin: 0;">Quick Actions</h3>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <a href="matches.html" class="btn btn-primary btn-block">Find Matching Projects</a>
+              <a href="profile.html" class="btn btn-secondary btn-block">Preview Public Profile</a>
+            </div>
+          </div>
+
+          <!-- Inquiries / Messages Received -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title" style="margin: 0;">Received Inquiries</h3>
+            </div>
+            <div id="providerMessagesList">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Edit Profile Modal -->
+  <div class="modal-overlay" id="editProfileModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="margin: 0; font-size: 1.15rem;">Edit Profile Information</h3>
+        <button class="modal-close-btn" id="closeEditModalBtn">&times;</button>
+      </div>
+      <form id="editProfileForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="editName">Full Name <span class="required">*</span></label>
+            <input type="text" id="editName" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="editExperience">Experience Level</label>
+            <select id="editExperience" class="form-control">
+              <option value="Beginner">Beginner</option>
+              <option value="1 year">1 year</option>
+              <option value="2 years">2 years</option>
+              <option value="3+ years">3+ years</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="editLocation">Location / City <span class="required">*</span></label>
+            <input type="text" id="editLocation" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="editDescription">Description / Bio</label>
+            <textarea id="editDescription" class="form-control" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelEditModalBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div>
+        <strong>SkillBase</strong> &mdash; Connect Skills. Find Opportunities.
+      </div>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="matches.html">Matches</a></li>
+        <li><a href="provider.html">Dashboard</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/provider.js"></script>
+</body>
+</html>

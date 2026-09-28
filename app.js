@@ -19,7 +19,9 @@ const STATIC_FILES = {
   '/js/main.js': { content: fs.readFileSync(path.join(__dirname, 'js', 'main.js')), type: 'application/javascript; charset=utf-8' },
   '/js/matches.js': { content: fs.readFileSync(path.join(__dirname, 'js', 'matches.js')), type: 'application/javascript; charset=utf-8' },
   '/js/provider.js': { content: fs.readFileSync(path.join(__dirname, 'js', 'provider.js')), type: 'application/javascript; charset=utf-8' },
-  '/js/seeker.js': { content: fs.readFileSync(path.join(__dirname, 'js', 'seeker.js')), type: 'application/javascript; charset=utf-8' }
+  '/js/seeker.js': { content: fs.readFileSync(path.join(__dirname, 'js', 'seeker.js')), type: 'application/javascript; charset=utf-8' },
+  '/documentation.html': { content: fs.readFileSync(path.join(__dirname, 'documentation.html')), type: 'text/html; charset=utf-8' },
+  '/SkillBase_Project_Documentation.pdf': { content: fs.readFileSync(path.join(__dirname, 'SkillBase_Project_Documentation.pdf')), type: 'application/pdf' }
 };
 
 // Clean URL aliases
@@ -30,6 +32,9 @@ STATIC_FILES['/provider'] = STATIC_FILES['/provider.html'];
 STATIC_FILES['/seeker'] = STATIC_FILES['/seeker.html'];
 STATIC_FILES['/matches'] = STATIC_FILES['/matches.html'];
 STATIC_FILES['/profile'] = STATIC_FILES['/profile.html'];
+STATIC_FILES['/documentation'] = STATIC_FILES['/documentation.html'];
+STATIC_FILES['/doc'] = STATIC_FILES['/documentation.html'];
+STATIC_FILES['/pdf'] = STATIC_FILES['/SkillBase_Project_Documentation.pdf'];
 
 function handler(req, res) {
   let reqPath = (req.url || '/').split('?')[0];
